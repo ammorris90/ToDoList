@@ -6,10 +6,9 @@
 //  Copyright © 2019 Andrew Morris. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-struct ToDo {
+struct ToDo: Codable {
     var title: String
     var isComplete: Bool
     var dueDate: Date
@@ -23,8 +22,19 @@ struct ToDo {
     }()
     
     
-    static func loadToDos() -> [ToDo]? {
-        return nil
+    static func loadToDos() -> [ToDo]?  {
+        guard let codedToDos = try? Data(contentsOf: ArchiveURL)
+            else {return nil}
+        let propertyListDecoder = PropertyListDecoder()
+        return try? propertyListDecoder.decode(Array<ToDo>.self,
+                                               from: codedToDos)
+    }
+    
+    static func saveToDos(_ todos: [ToDo]) {
+        let propertyListEncoder = PropertyListEncoder()
+        let codedToDos = try? propertyListEncoder.encode(todos)
+        try? codedToDos?.write(to: ArchiveURL,
+                               options: .noFileProtection)
     }
     
     static func loadSampleToDos() -> [ToDo] {
@@ -36,6 +46,12 @@ struct ToDo {
     }
 
 
+    static let DocumentsDirectory =
+        FileManager.default.urls(for: .documentDirectory,
+                                 in: .userDomainMask).first!
+    static let ArchiveURL =
+        DocumentsDirectory.appendingPathComponent("todos")
+            .appendingPathExtension("plist")
     
     
 }
