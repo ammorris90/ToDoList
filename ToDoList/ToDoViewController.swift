@@ -11,6 +11,22 @@ import UIKit
 class ToDoViewController: UITableViewController {
     var todo: ToDo?
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if let todo = todo {
+            navigationItem.title = "To-Do"
+            titleTextField.text = todo.title
+            isCompleteButton.isSelected = todo.isComplete
+            dueDatePickerView.date = todo.dueDate
+            notesTextView.text = todo.notes
+        } else {
+            dueDatePickerView.date =
+                Date().addingTimeInterval(24*60*60)
+        }
+        updateDueDateLabel(date: dueDatePickerView.date)
+        updateSaveButtonState()
+    }
+
     
     //so app knows whether datepicker is hidden or not
   /* var isEndDatePickerHidden = true
@@ -101,13 +117,6 @@ func updateSaveButtonState() {
         saveButton.isEnabled = !text.isEmpty
     }
     
-    //view did load location
-override func viewDidLoad() {
-        super.viewDidLoad()
-        updateSaveButtonState()
-        updateDueDateLabel(date: dueDatePickerView.date)
-    }
-   
     
     // checks if unwind segue is working
     override func prepare(for segue: UIStoryboardSegue, sender:
@@ -127,3 +136,5 @@ override func viewDidLoad() {
     
     
 }
+
+

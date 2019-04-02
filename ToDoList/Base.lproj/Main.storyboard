@@ -18,27 +18,51 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ToDoCellIdentifier" id="hiC-GF-MyX">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ToDoCellIdentifier" id="hiC-GF-MyX" customClass="ToDoCell" customModule="ToDoList" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hiC-GF-MyX" id="bbb-06-vuh">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kO-5n-Rdo">
-                                            <rect key="frame" x="16" y="7" width="46" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8fp-6z-fGN">
+                                            <rect key="frame" x="8" y="4" width="36" height="36"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="36" id="KcO-WO-Lbe"/>
+                                                <constraint firstAttribute="height" constant="36" id="Tbm-s2-xVH"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                                            <state key="normal" title="Button" image="Unchecked"/>
+                                            <state key="selected" image="Checked"/>
+                                            <connections>
+                                                <action selector="completeButtonTapped" destination="hiC-GF-MyX" eventType="touchUpInside" id="ABY-Eu-nOY"/>
+                                                <action selector="isCompleteButtonTapped:" destination="b9u-Om-TpT" eventType="touchUpInside" id="bfu-9q-tVS"/>
+                                            </connections>
                                         </button>
-                                        <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5yN-Yq-xhm">
-                                            <rect key="frame" x="179" y="7" width="97" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Remind me too..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jyi-jH-AWR">
+                                            <rect key="frame" x="44" y="7" width="323" height="30"/>
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <action selector="returnPressed:" destination="b9u-Om-TpT" eventType="primaryActionTriggered" id="t0d-4O-PZd"/>
+                                                <action selector="textEditingChanged:" destination="b9u-Om-TpT" eventType="editingDidEnd" id="zBi-FE-R9C"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="8fp-6z-fGN" firstAttribute="centerY" secondItem="bbb-06-vuh" secondAttribute="centerY" id="Exv-a5-qcp"/>
+                                        <constraint firstItem="Jyi-jH-AWR" firstAttribute="centerY" secondItem="bbb-06-vuh" secondAttribute="centerY" id="KXb-Sa-88N"/>
+                                        <constraint firstItem="8fp-6z-fGN" firstAttribute="leading" secondItem="bbb-06-vuh" secondAttribute="leading" constant="8" id="Z4d-Nh-ii7"/>
+                                        <constraint firstAttribute="trailing" secondItem="Jyi-jH-AWR" secondAttribute="trailing" constant="8" id="ZbY-67-rJO"/>
+                                        <constraint firstItem="Jyi-jH-AWR" firstAttribute="leading" secondItem="8fp-6z-fGN" secondAttribute="trailing" id="dn1-5A-eLS"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="isCompleteButton" destination="8fp-6z-fGN" id="IyA-r5-jkl"/>
+                                    <outlet property="titleLabel" destination="Jyi-jH-AWR" id="IDc-9h-mDI"/>
+                                    <segue destination="b9u-Om-TpT" kind="show" identifier="showDetails" id="W6J-yZ-cn0"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -251,11 +275,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="03H-4I-p2P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1767" y="194"/>
+            <point key="canvasLocation" x="1745" y="888"/>
         </scene>
     </scenes>
     <resources>
         <image name="Checked" width="44" height="44"/>
         <image name="Unchecked" width="44" height="44"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="W6J-yZ-cn0"/>
+    </inferredMetricsTieBreakers>
 </document>
